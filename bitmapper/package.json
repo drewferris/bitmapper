@@ -2,7 +2,7 @@
   "name": "drew",
   "version": "1.0.0",
   "description": "",
-  "main": "manuplayer.js",
+  "main": "header_reader.js",
   "directories": {
     "test": "test"
   },
