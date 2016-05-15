@@ -9,7 +9,7 @@ headers.type = imageFile.toString('ascii', 0, 2);
 headers.size = imageFile.readUInt32LE(2);
 headers.pixelStart = imageFile.readUInt32LE(10);
 
-var transformer = function(image) {
+var transformer = module.exports = function () {
   var stream = fs.createWriteStream('newImage.bmp');
   for (var i = 0; i < imageFile.length; i++) {
     var data = imageFile[i];

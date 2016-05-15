@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const eslint = require('gulp-eslint');
 const mocha = require('gulp-mocha');
+const watch = require('gulp-watch');
 
 gulp.task('lint', () => {
   gulp.src(['./*.js', './test/*.js'])
@@ -22,4 +23,8 @@ gulp.task('mocha', () => {
         }));
 });
 
-gulp.task('default', ['mocha', 'lint']);
+gulp.task('watch', () => {
+  gulp.watch(['./*.js', './test/*.js' ], ['mocha', 'lint']);
+});
+
+gulp.task('default', ['mocha', 'lint', 'watch']);
