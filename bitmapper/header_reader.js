@@ -1,26 +1,27 @@
 const fs = require('fs');
-var filename = __dirname + '/non-palette-bitmap.bmp';
+var fileName = __dirname + '/non-palette-bitmap.bmp';
 
-const file = fs.readFileSync(filename);
+const imageFile = fs.readFileSync(fileName);
 
 const headers = {};
 
-headers.type = file.toString('ascii', 0, 2);
-headers.size = file.readUInt32LE(2);
-headers.pixelStart = file.readUInt32LE(10);
+headers.type = imageFile.toString('ascii', 0, 2);
+headers.size = imageFile.readUInt32LE(2);
+headers.pixelStart = imageFile.readUInt32LE(10);
 
-var wstream = fs.createWriteStream('newImage.bmp');
-for (var i = 0; i < file.length; i++) {
-  var data = file[i];
-  if (i > headers.pixelStart ) {
-    data = Math.floor((Math.random() * 255) + 1);
+var transformer = module.exports = function () {
+  var stream = fs.createWriteStream('newImage.bmp');
+  for (var i = 0; i < imageFile.length; i++) {
+    var data = imageFile[i];
+    if (i > headers.pixelStart ) {
+      data = Math.floor((Math.random() * 255) + 1);
+    }
+
+    var buffr = new Buffer(1);
+    buffr.writeUInt8(data, 0);
+    stream.write(buffr);
   }
+  stream.end();
+};
 
-  var buf = new Buffer(1);
-  buf.writeUInt8(data, 0);
-  console.log(buf);
-  wstream.write(buf);
-}
-wstream.end();
-
-console.log(headers);
+transformer(fileName);
